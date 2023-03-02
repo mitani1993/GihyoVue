@@ -1,47 +1,78 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref, computed } from "vue";
+
+const msg = ref("こんにちは!世界");
+const isTextColorRed = ref(true);
+const isBgColorBlue = ref(false);
+const styles = ref({
+  textColorRed: false,
+  bgColorBlue: true
+});
+const computedStyles = computed(
+  (): { textColorRed: boolean, bgColorBlue: boolean } => {
+    //乱数を利用して0か1を生成(textColorRed用)。
+    const randText = Math.round(Math.random());
+    //textColorRedプロパティの値を表す変数をtrueで用意。
+    let textColorFlg = true;
+    //発生した乱数が0ならばfalseに変更。
+    if (randText == 0) {
+      textColorFlg = false;
+    }
+    //乱数を利用して0か1を生成(bgColorBlue用)。
+    const randBg = Math.round(Math.random());
+    //bgColorBlueプロパティの値を表す変数をtrueで用意。
+    let bgColorFlg = true;
+    //発生した乱数が0ならばfalseに変更。
+    if (randBg == 0) {
+      bgColorFlg = false;
+    }
+    //それぞれのプロパティの値をオブジェクトにして返す。
+    return {
+      textColorRed: textColorFlg,
+      bgColorBlue: bgColorFlg
+    };
+  }
+);
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <p v-bind:class="{ textColorRed: true, bgColorBlue: true }">
+    {{ msg }}
+  </p>
+  <p v-bind:class="{ textColorRed: isTextColorRed, bgColorBlue: isBgColorBlue }">
+    {{ msg }}
+  </p>
+  <p v-bind:class="{ textColorPink: true }">
+    {{ msg }}
+  </p>
+  <p v-bind:class="{ 'text-color-pink': true }">
+    {{ msg }}
+  </p>
+  <p class="textSize24" v-bind:class="{ textColorRed: isTextColorRed, bgColorBlue: isBgColorBlue }">
+    {{ msg }}
+  </p>
+  <p class="textSize24" v-bind:class="styles">
+    {{ msg }}
+  </p>
+  <p v-bind:class="computedStyles">
+    {{ msg }}
+  </p>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<style>
+.textColorRed {
+  color: red;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.text-color-pink {
+  color: pink;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.bgColorBlue {
+  background-color: blue;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.textSize24 {
+  font-size: 24px;
 }
 </style>
