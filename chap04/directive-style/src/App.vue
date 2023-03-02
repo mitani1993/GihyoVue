@@ -1,47 +1,55 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref, computed } from "vue";
+
+const msg = ref("こんにちは!世界");
+const msgTextRed = ref("red");
+const msgTextColor = ref("white");
+const msgBgColor = ref("black");
+const msgStyles = ref({
+  color: "white",
+  backgroundColor: "black"
+});
+const msgStyles2 = ref({
+  fontSize: "24pt"
+});
+const msgStyles3 = ref({
+  color: "pink",
+  fontSize: "24pt"
+});
+const textSize = computed(
+  (): string => {
+    const size = Math.round(Math.random() * 25) + 10;
+    return `${size}pt`;
+  }
+);
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <p v-bind:style="{ color: msgTextRed }">
+    {{ msg }}
+  </p>
+  <p v-bind:style="{ color: 'pink' }">
+    {{ msg }}
+  </p>
+  <p v-bind:style="{ fontSize: textSize }">
+    {{ msg }}
+  </p>
+  <p v-bind:style="{ color: msgTextColor, backgroundColor: msgBgColor }">
+    {{ msg }}
+  </p>
+  <p v-bind:style="{ color: msgTextColor, 'background-color': msgBgColor }">
+    {{ msg }}
+  </p>
+  <p v-bind:style="msgStyles">
+    {{ msg }}
+  </p>
+  <p v-bind:style="[msgStyles, msgStyles2]">
+    {{ msg }}
+  </p>
+  <p v-bind:style="[msgStyles, msgStyles3]">
+    {{ msg }}
+  </p>
+  <p v-bind:style="[msgStyles3, msgStyles]">
+    {{ msg }}
+  </p>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
