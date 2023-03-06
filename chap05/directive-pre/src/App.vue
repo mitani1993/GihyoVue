@@ -1,4 +1,5 @@
-<script setup lang="ts">
-</script>
-
-<template></template>
+<template>
+  <section v-pre>
+    <p v-on:click="showHello">{{ hello! }}</p>
+  </section>
+</template>
