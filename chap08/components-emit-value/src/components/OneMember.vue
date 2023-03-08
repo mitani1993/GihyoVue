@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
 // Propsインターフェイスの定義。
 interface Props {
@@ -9,11 +9,15 @@ interface Props {
   points: number;
   note?: string;
 }
+// Emitインターフェイスの定義。
+interface Emits {
+  (event: "incrementPoint", id: number): void;
+}
 // Propsオブジェクトの設定。
 const props = defineProps<Props>();
+// Emitの設定。
+const emit = defineEmits<Emits>();
 
-// このコンポーネント内で利用するポイント数のテンプレート変数。
-const localPoints = ref(props.points);
 // Propsのnoteを加工する算出プロパティ。
 const localNote = computed(
   (): string => {
@@ -26,7 +30,7 @@ const localNote = computed(
 );
 // ポイント加算ボタンをクリックしたときのメソッド。
 const pointUp = (): void => {
-  localPoints.value++;
+  emit("incrementPoint", props.id);
 }
 </script>
 
@@ -39,7 +43,7 @@ const pointUp = (): void => {
       <dt>メールアドレス</dt>
       <dd>{{ email }}</dd>
       <dt>保有ポイント</dt>
-      <dd>{{ localPoints }}</dd>
+      <dd>{{ points }}</dd>
       <dt>備考</dt>
       <dd>{{ localNote }}</dd>
     </dl>
