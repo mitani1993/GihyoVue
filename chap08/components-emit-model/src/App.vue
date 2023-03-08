@@ -12,22 +12,12 @@ const memberList = ref(memberListInit);
 const totalPoints = computed(
   (): number => {
     let total = 0;
-    for (const menber of memberList.value.values()) {
-      total += menber.points;
+    for (const member of memberList.value.values()) {
+      total += member.points;
     }
     return total;
   }
 );
-
-// Emitによって実行されるメソッド
-const onIncrementPoint = (id: number): void => {
-  // 処理関数のidに該当する会員情報オブジェクトを取得。
-  const member = memberList.value.get(id);
-  if (member != undefined) {
-    // ポイントをインクリメント。
-    member.points++;
-  }
-};
 
 // 会員情報インターフェース。
 interface Member {
@@ -44,7 +34,6 @@ interface Member {
     <h1>会員リスト</h1>
     <p>全会員の保有ポイントの合計: {{ totalPoints }}</p>
     <OneMember v-for="[id, member] in memberList" v-bind:key="id" v-bind:id="id" v-bind:name="member.name"
-      v-bind:email="member.email" v-bind:points="member.points" v-bind:note="member.note"
-      v-on:incrementPoint="onIncrementPoint" />
+      v-bind:email="member.email" v-model:points="member.points" v-bind:note="member.note" />
   </section>
 </template>
