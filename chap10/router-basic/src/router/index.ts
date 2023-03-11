@@ -4,10 +4,17 @@ import AppTop from "@/views/AppTop.vue";
 
 const routeSettings: RouteRecordRaw[] = [
   {
-      path: "/",
-      name: "AppTop",
-      component: AppTop
+    path: "/",
+    name: "AppTop",
+    component: AppTop
+  },
+  {
+    path: "/member/memberList",
+    name: "MemberList",
+    component: () => {
+      return import("@/views/member/MemberList.vue");
     }
+  },
 ];
 
 const router = createRouter({
