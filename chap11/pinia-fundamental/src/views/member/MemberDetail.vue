@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import type { Member } from "@/interfaces";
+import { useMemberStore } from '@/stores/members';
 
 interface Props {
   id: number;
 }
 const props = defineProps<Props>();
-const memberList = inject("memberList") as Map<number, Member>;
+
+const membersStore = useMemberStore();
 const member = computed(
-  (): Member => {
-    return memberList.get(props.id) as Member;
+  ():Member => {
+    return membersStore.getById(props.id);
   }
 );
 const localNote = computed(
