@@ -5,7 +5,7 @@ interface State {
   memberList: Map<number, Member>;
 }
 
-export const useCounterStore = defineStore({
+export const useMemberStore = defineStore({
   id: "member",
   state: (): State => {
     return {
