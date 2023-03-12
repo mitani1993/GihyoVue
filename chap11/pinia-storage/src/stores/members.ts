@@ -38,6 +38,14 @@ export const useMemberStore = defineStore({
       }
       // ステートにmemberListを格納。
       this.memberList = memberList;
+    },
+    insertMember(member: Member): void {
+      // ステートのmemberListに引数の会員情報を追加。
+      this.memberList.set(member.id, member);
+      // ステートのmemberListをJSON文字列に変換。
+      const memberListJSONStr = JSON.stringify([...this.memberList]);
+      // セッションストレージに格納。
+      sessionStorage.setItem("memberList", memberListJSONStr);
     }
   }
 });
