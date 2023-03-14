@@ -131,6 +131,7 @@ export const useMemberStore = defineStore({
           };
         }
       );
+      return promise;
     }
   }
 });
