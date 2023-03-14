@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+import axios from "axios";
 
 export interface City {
   name: string;
@@ -71,9 +72,9 @@ export const useWeatherStore = defineStore({
       // 実際にアクセスするURLを生成。
       const urlFull = `${weatherInfoUrl}?${queryParams}`;
       // URLに非同期でアクセスしてデータを取得。
-      const response = await fetch(urlFull);
+      const response = await axios.get(urlFull);
       // 取得したデータを非同期でJSONに変換。
-      const weatherInfoJSON = await response.json();
+      const weatherInfoJSON = response.data;
       // お天気情報JSONから天気データを取得し、ステートに格納。
       const weatherArray = weatherInfoJSON.weather;
       const weather = weatherArray[0];
