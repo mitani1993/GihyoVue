@@ -103,13 +103,34 @@ export const useMemberStore = defineStore({
       );
       return promise;
     },
-    insertMember(member: Member): void {
-      // ステートのmemberListに引数の会員情報を追加。
-      this.memberList.set(member.id, member);
-      // ステートのmemberListをJSON文字列に変換。
-      const memberListJSONStr = JSON.stringify([...this.memberList]);
-      // セッションストレージに格納。
-      sessionStorage.setItem("memberList", memberListJSONStr);
+    async insertMember(member: Member): Promise<boolean> {
+      // membersオブジェクト生成。
+      const memberAdd: Member = {
+        ... member
+      };
+      // データベースオブジェクトを取得する。
+      const database = await getDatabase();
+      const promise = new Promise<boolean>(
+        (resolve, reject) => {
+          // トランザクションオブジェクトを取得する。
+          const transaction = database.transaction("members", "readwrite");
+          // membersオブジェクトストアを取得する。
+          const objectStore = transaction.objectStore("members");
+          // データ登録
+          objectStore.put(memberAdd);
+          // トランザクションが成功した場合の処理を登録。
+          transaction.oncomplete = () => {
+            // 非同期処理成功。 Promise内の戻り値をtrueに。
+            resolve(true);
+          };
+          // トランザクションが失敗した場合の処理を登録。
+          transaction.onerror = (event) => {
+            // 非同期処理失敗。 エラーメッセージを格納。
+            console.log("ERROR: データ登録に失敗。", event);
+            reject(new Error("ERROR: データ登録に失敗。"));
+          };
+        }
+      );
     }
   }
 });
