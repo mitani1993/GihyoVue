@@ -3,6 +3,7 @@ import type { Member } from "@/interfaces"
 
 interface State {
   memberList: Map<number, Member>;
+  isLoading: boolean;
 }
 
 let _database: IDBDatabase;
@@ -37,7 +38,8 @@ export const useMemberStore = defineStore({
   id: "member",
   state: (): State => {
     return {
-      memberList: new Map<number, Member>()
+      memberList: new Map<number, Member>(),
+      isLoading: true
     };
   },
   getters: {
