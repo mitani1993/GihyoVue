@@ -42,5 +42,23 @@ describe(
         expect(actualText).toContain("--");
       }
     );
+    test(
+      "[ポイント加算]ボタンクリックのテスト(Emitのテスト)",
+      async () => {
+        const propsData = {
+          id : 22458,
+          name : "中野三郎",
+          email: "mue@wow.com",
+          points: 200,
+          note: "すばらしい"
+        };
+        const wrapper = mount(OneMember, {props: propsData});
+        await wrapper.get("button").trigger("click");
+        const incrementPointEvent = wrapper.emitted("incrementPoint");
+        expect(incrementPointEvent).toHaveLength(1);
+        const expectedIncrementPointEvent = [[propsData.id]];
+        expect(incrementPointEvent).toEqual(expectedIncrementPointEvent);
+      }
+    );
   }
 );
